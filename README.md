@@ -35,6 +35,7 @@ VUE3.x: Volar
 
 #### 资料地址
 
-[vue3官网](https://v3.cn.vuejs.org/guide/installation.html#cdn)
+[vue3官网](https://v3.cn.vuejs.org/api/)
 [vite官网](https://cn.vitejs.dev/guide/#scaffolding-your-first-vite-project)
 [TS+vue3+webpack](https://24kcs.github.io/vue3_study/00_%E8%AF%BE%E7%A8%8B%E4%BB%8B%E7%BB%8D.html)
+
