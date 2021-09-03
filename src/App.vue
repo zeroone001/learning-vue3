@@ -1,24 +1,62 @@
 <template>
-  <div id="nav">
+  <!-- <div id="nav">
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link>
   </div>
-  <router-view/>
+  <router-view/> -->
+  <div class="container" @click="handlePerson">
+    {{ name }}
+</div>
 </template>
 
 <script>
-import { h, ref } from 'vue';
+import { h, ref, onMounted, watch, toRefs, computed, reactive } from 'vue';
+// 一个单独的功能模块
+import getNames from './composable/getNames';
 export default {
   name: 'App',
-  setup () {
-    // ref 对象
-    let name = ref('zhangsan');
+  components: {
 
-    function handlePerson () {
-      name.value = 'lys'
+  },
+  props: {
+    user: {
+      type: String
     }
+  },
+  setup (props) {
+    // ref 对象
+    let age = ref(12);
+    let objj = ref({
+      type: 'abc'
+    });
+
+    let obj2 = reactive({
+      type: '12'
+    });
+    console.log('age', age);
+    console.log('type:', obj2.type);
+    let { name, handlePerson } = getNames();
+
+    const { user } = toRefs(props);
+
+    // 只读的响应式应用
+    let newAge = computed(() => {
+      return age.value * 2;
+    })
+
+    
+
+    onMounted(() => {
+      console.log('onMounted');
+    });
+    
+
+
+
     return {
-      name
+      name,
+      newAge,
+      handlePerson
     }
     // 返回一个渲染函数
     // return () => h('h1', 'qweqw');
@@ -28,6 +66,25 @@ export default {
 </script>
 
 <style lang="scss">
+* {
+    margin: 0;
+    padding: 0;
+}
+.container {
+}
+.float {
+    width: 200px;
+    height: 100px;
+    float: left;
+    background: red;
+    opacity: 0.3;
+}
+
+.main {
+    background: green;
+    height: 100px;
+    overflow: hidden;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
