@@ -4,19 +4,25 @@
     <router-link to="/about">About</router-link>
   </div>
   <router-view/> -->
-  <div class="container" @click="handlePerson">
+  <div class="container" @click="changetype">
     {{ name }}
-</div>
+    <props :name="name" @showEmit="showEmit">
+      <template v-slot:aa>
+        <span>这是一个slot</span>
+      </template>
+    </props>
+  </div>
 </template>
 
 <script>
-import { h, ref, onMounted, watch, toRefs, computed, reactive } from 'vue';
+import { h, ref, onMounted, watch, toRefs, computed, reactive, watchEffect } from 'vue';
 // 一个单独的功能模块
 import getNames from './composable/getNames';
+import Props from './components/props.vue';
 export default {
   name: 'App',
   components: {
-
+    Props
   },
   props: {
     user: {
@@ -33,8 +39,20 @@ export default {
     let obj2 = reactive({
       type: '12'
     });
-    console.log('age', age);
-    console.log('type:', obj2.type);
+
+    watch(() => obj2.type, (newVal, oldVal) => {
+      console.log(newVal, oldVal);
+    });
+
+    function changetype () {
+      console.log('12312');
+      obj2.type= '13'
+    }
+    watchEffect(() => {
+      console.log('obj2.type', obj2.type);
+    })
+    // console.log('age', age);
+    // console.log('type:', obj2.type);
     let { name, handlePerson } = getNames();
 
     const { user } = toRefs(props);
@@ -43,24 +61,23 @@ export default {
     let newAge = computed(() => {
       return age.value * 2;
     })
-
-    
-
     onMounted(() => {
-      console.log('onMounted');
+      // console.log('onMounted');
     });
-    
 
-
+    function showEmit () {
+      alert('showEmit')
+    }
 
     return {
+      changetype,
       name,
       newAge,
-      handlePerson
+      handlePerson,
+      showEmit
     }
     // 返回一个渲染函数
     // return () => h('h1', 'qweqw');
-
   }
 }
 </script>
