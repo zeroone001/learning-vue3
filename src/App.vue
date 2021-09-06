@@ -5,20 +5,43 @@
   </div>
   <router-view/> -->
   <div class="container" @click="changetype">
-    {{ name }}
     <props :name="name" @showEmit="showEmit">
       <template v-slot:aa>
         <span>这是一个slot</span>
       </template>
     </props>
   </div>
+  <div @click="changeVal">
+    {{ name }}---- {{age}}
+  </div>
+  <input v-model="text" />
 </template>
 
 <script>
-import { h, ref, onMounted, watch, toRefs, computed, reactive, watchEffect } from 'vue';
+import { h, ref, customRef, onMounted, watch, toRefs, readonly, shallowReadonly, computed, reactive, watchEffect, toRef } from 'vue';
 // 一个单独的功能模块
 import getNames from './composable/getNames';
 import Props from './components/props.vue';
+import hook1 from './hooks/hook1';
+import hook2 from './hooks/hook2';
+function useDebouncedRef(value, delay = 200) {
+  let timeout
+  return customRef((track, trigger) => {
+    return {
+      get() {
+        track()
+        return value
+      },
+      set(newValue) {
+        clearTimeout(timeout)
+        timeout = setTimeout(() => {
+          value = newValue
+          trigger()
+        }, delay)
+      }
+    }
+  })
+}
 export default {
   name: 'App',
   components: {
@@ -29,8 +52,30 @@ export default {
       type: String
     }
   },
-  setup (props) {
+  setup () {
     // ref 对象
+
+    // let objToRef = reactive({
+    //   name: 'lys',
+    //   age: 13,
+    //   sex: '男',
+    //   _obj: {
+    //     val: '1'
+    //   }
+    // });
+
+    // let objToRefName = toRef(objToRef, 'name');
+    // let objToRefVal = toRef(objToRef._obj, 'val');
+    // let xx = toRefs(objToRef);
+    // function changeVal () {
+    //   xx.name.value = 'wjx';
+    //   xx.age.value = 14
+    // }
+
+    let h2 = hook2();
+    let h1 = hook1();
+
+
     let age = ref(12);
     let objj = ref({
       type: 'abc'
@@ -55,7 +100,7 @@ export default {
     // console.log('type:', obj2.type);
     let { name, handlePerson } = getNames();
 
-    const { user } = toRefs(props);
+    // const { user } = toRefs(props);
 
     // 只读的响应式应用
     let newAge = computed(() => {
@@ -69,12 +114,22 @@ export default {
       alert('showEmit')
     }
 
+    let text = useDebouncedRef('hello');
+
+    console.log('text', text);
+
     return {
+      // ...xx,
+      // changeVal,
+      // objToRefVal,
+      // objToRefName,
+      // objToRef,
       changetype,
       name,
       newAge,
       handlePerson,
-      showEmit
+      showEmit,
+      text
     }
     // 返回一个渲染函数
     // return () => h('h1', 'qweqw');
