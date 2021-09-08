@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 import Home from '../views/Home.vue'
-
+// 规定了数组元素类型是RouteRecordRaw，它可以在定义路由时进行友善地提示。
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',

@@ -58,6 +58,8 @@ VUE3.x: Volar
 * [TS+vue3+webpack](https://24kcs.github.io/vue3_study/chapter3/01_%E8%AE%A4%E8%AF%86Vue3.html)
 * [视频TS+VUE3](https://www.bilibili.com/video/BV1ra4y1H7ih?p=42)
 * [TS 视频教程](https://www.bilibili.com/video/BV1Xy4y1v7S2?spm_id_from=333.999.0.0)
+* [vue3细节，值得去看](https://v3.cn.vuejs.org/guide/migration/introduction.html)
+* 
 
 
 

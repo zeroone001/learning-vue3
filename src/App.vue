@@ -1,90 +1,142 @@
 <template>
-  <div class="todo">
-    <the-todo 
-      v-for="(item, index) in todos"
-      :key="index"
-      :todo="item"
-    ></the-todo>
+  <div @mouseenter="status = 1" @mouseleave="status = -1" class="tpm-multi-tabs__item-cont">
+    <i
+      class="tpm-multi-tabs__item-icon"
+      :class="{ 'is-leave': status === -1, 'is-enter': status === 1 }"
+      :style="{
+        backgroundImage: map.get(icon)
+      }"
+    ></i>
+    {{ text }}
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref, toRefs } from 'vue';
-import theTodo from './components/theTodo.vue';
-import { Todo } from './types/todo';
-// 一个单独的功能模块
-
-// defineComponent 目的是定义一个组件
+import { ref, defineComponent } from 'vue'
 export default defineComponent({
-  name: 'App',
-  components: {
-    theTodo
-  },
   props: {
-    
-  },
-  setup () {
-    type State = {
-      todos: Todo[]
-    };
-    let state = reactive<State>({
-      todos: [
-        {
-          id: 1, title: '奔驰'
-        },
-        {
-          id: 2, title: '宝马'
-        },
-        {
-          id: 3, title: '头条'
-        }
-      ]
-    })
-    return {
-      ...toRefs(state)
+    icon: {
+      type: String,
+      default: 'ani-hot'
+    },
+    text: {
+      type: String,
+      default: ''
     }
+  },
+  setup(props: any) {
+    const status = ref<number>(0)
+    const map = ref<Map<string, string>>(
+      new Map([
+        [
+          'ani-hot',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-hot.png")'
+        ],
+        [
+          'ani-base',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-base.png")'
+        ],
+        [
+          'ani-middleware',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-middleware.png")'
+        ],
+        [
+          'ani-storage',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-storage.png")'
+        ],
+        [
+          'ani-database',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-database.png")'
+        ],
+        ['ani-net', 'url("https://main.qcloudimg.com/raw/aa866277d1ea20bc4d8471dc6a11957c.png")'],
+        [
+          'ani-video',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-video.png")'
+        ],
+        [
+          'ani-safe',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-safe.png")'
+        ],
+        [
+          'ani-big-data',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-big-data.png")'
+        ],
+        [
+          'ani-ai',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-ai.png")'
+        ],
+        [
+          'ani-iot',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-iot.png")'
+        ],
+        [
+          'ani-app',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-app.png")'
+        ],
+        [
+          'ani-industry',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-industry.png")'
+        ],
+        [
+          'ani-developer',
+          'url("https://main.qcloudimg.com/trisys/assets/home/images/product/ani-developer.png")'
+        ]
+      ])
+    )
+    const width = ref<string>('100px')
+    return { ...props, status, map, width }
   }
-});
-
+})
 </script>
 
-<style lang="scss">
-* {
-    margin: 0;
-    padding: 0;
-}
-.container {
-}
-.float {
-    width: 200px;
-    height: 100px;
-    float: left;
-    background: red;
-    opacity: 0.3;
+<style lang="scss" scoped>
+@keyframes tpm-product-multi__icon-leave {
+  0% {
+    background-position: 0 -1440px;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
 }
 
-.main {
-    background: green;
-    height: 100px;
-    overflow: hidden;
+@keyframes tpm-product-multi__icon-enter {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -1440px;
+  }
 }
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+.tpm-multi-tabs__item-cont {
+  position: relative;
+  cursor: pointer;
+  padding: 0 20px 20px;
   text-align: center;
-  color: #2c3e50;
-}
+  font-size: 16px;
+  color: #3d485d;
+  line-height: 24px;
+  width: v-bind(width);
 
-#nav {
-  padding: 30px;
+  .tpm-multi-tabs__item-icon {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    margin-bottom: 6px;
+    margin-top: -6px;
+    display: block;
+    margin: 0 auto 12px;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-position: top;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+    &.is-leave {
+      animation: tpm-product-multi__icon-leave 0.5s steps(24) forwards;
+    }
 
-    &.router-link-exact-active {
-      color: #42b983;
+    &.is-enter {
+      animation: tpm-product-multi__icon-enter 0.5s steps(24) forwards;
     }
   }
 }
