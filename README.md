@@ -50,6 +50,9 @@ VUE3.x: Volar
 官方文档： [https://v3.cn.vuejs.org/guide/migration/array-refs.html#%E8%BF%81%E7%A7%BB%E7%AD%96%E7%95%A5](https://v3.cn.vuejs.org/guide/migration/array-refs.html#%E8%BF%81%E7%A7%BB%E7%AD%96%E7%95%A5)
 
 
+### diff 算法
+
+[vue2 diff 算法](https://github.com/zeroone001/dom-diff-demo)
 
 #### 链接地址
 
