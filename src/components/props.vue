@@ -11,17 +11,21 @@
 import { reactive, toRefs, ref, onMounted } from 'vue'
 
 export default {
-    props: ['name'],
+    name: 'myProps',
+    props: {
+        name: {
+            type: String
+        }
+    },
     emits: ['showEmit'],
-    setup (props, context) {
+    setup (props: any, context: any) {
         console.log('props', props);
-
-        let p = toRefs(props);
+        const { name } = toRefs(props);
         // context.attrs emit , slot
         // context.attrs 相当于 vue2中的 $attrs
         // context.emit 相当于 vue2 中的 this.$emit 用于触发父组件传入的函数
         // context.slots 相当于 this.$slots
-        console.log('context', context.slots);
+        // console.log('context', context.slots);
         
         let refInput = ref<HTMLElement | null>(null);
         const state = reactive({
@@ -30,7 +34,9 @@ export default {
 
         onMounted(() => {
             console.log('refInput', refInput);
-            
+            if (name.value === 'lys------>') {
+                console.log('12312');
+            }
         })
         function showEmits () {
             context.emit('showEmit');
@@ -40,8 +46,8 @@ export default {
         }
     
         return {
+            name,
             ...toRefs(state),
-            ...p,
             changeProps,
             refInput,
             showEmits
